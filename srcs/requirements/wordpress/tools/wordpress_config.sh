@@ -2,13 +2,14 @@
 
 sleep 5
 
+    echo "\n==============================="
+    echo "=== Wordpress configuration ==="
+    echo "===============================\n"
+
 if [ -f "/var/www/html/wp-config.php" ]
 then
     echo "==> wordpress is already installed and configured\n"
 else
-    echo "\n==============================="
-    echo "=== Wordpress configuration ==="
-    echo "===============================\n"
     wp core download --allow-root
     wp core config  --allow-root \
                     --dbname=$SQL_DATABASE \

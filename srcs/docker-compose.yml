@@ -85,6 +85,16 @@ services:
       - "0.0.0.0:40000-40100:40000-40100"
     restart: on-failure
     env_file: .env
+
+  pelican:
+    container_name: pelican
+    image: pelican
+    build: requirements/bonus/pelican/
+    networks:
+      - inception
+    expose:
+      - "8000"
+    restart: on-failure
   
 volumes:
   wordpress:
