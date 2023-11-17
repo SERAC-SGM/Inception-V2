@@ -28,6 +28,8 @@ else
                     --allow-root
 fi
 
+chown -R www-data:www-data /var/www/html/wp-content
+
     echo "\n==========================="
     echo "=== Redis configuration ==="
     echo "===========================\n"

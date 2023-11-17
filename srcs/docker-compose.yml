@@ -90,11 +90,22 @@ services:
     container_name: pelican
     image: pelican
     build: requirements/bonus/pelican/
+    depends_on:
+      - website
+    volumes:
+      - pelican:/md/
     networks:
       - inception
     expose:
       - "8000"
     restart: on-failure
+
+  website:
+    container_name: website
+    image: website
+    build: requirements/bonus/website/
+    volumes:
+      - pelican:/md/
   
 volumes:
   wordpress:
@@ -112,6 +123,14 @@ volumes:
       type: 'none'
       o: bind
       device: '/home/user/data/mariadb'
+
+  pelican:
+    name: pelican
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: '/home/user/data/pelican'
 
 networks:
   inception:

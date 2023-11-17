@@ -10,11 +10,11 @@ down :
 	docker compose -f srcs/docker-compose.yml down
 
 volumes :
-	mkdir -p ~/data/mariadb  ~/data/wordpress
+	mkdir -p ~/data/mariadb  ~/data/wordpress ~/data/pelican
 
 clean_volumes: down
-	docker volume rm mariadb wordpress
-	sudo rm -rf ~/data/mariadb ~/data/wordpress
+	docker volume rm mariadb wordpress pelican
+	sudo rm -rf ~/data/mariadb ~/data/wordpress ~/data/pelican
 
 clean : down
 	docker system prune -af
