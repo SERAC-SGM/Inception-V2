@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 
 cp /md/article.md /static/content/article.md
 cd /static/
