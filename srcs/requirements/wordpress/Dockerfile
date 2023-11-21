@@ -7,8 +7,8 @@ RUN apt-get update -y\
                             mariadb-client\
                             wget
 
+# Bypass 'ERROR: Unable to create the PID file (/run/php/php7.4-fpm.pid).: No such file or directory (2)'
 RUN mkdir -p /var/www/html /run/php/
-RUN chown -R root:root /var/www/html
 
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN chmod 755 /etc/php/7.4/fpm/pool.d/www.conf
