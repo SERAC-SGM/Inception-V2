@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# sleep 5
+sleep 3
 
     echo "\n==============================="
     echo "=== Wordpress configuration ==="
@@ -45,13 +45,18 @@ chown -R www-data:www-data /var/www/html
     echo "=== Redis configuration ==="
     echo "===========================\n"
 
+    # configure redis settings in wordpress
     wp config set WP_CACHE true --add --allow-root
     wp config set WP_CACHE_KEY_SALT lletourn.42.fr --allow-root
     wp config set WP_REDIS_HOST redis --allow-root
+
+    # install and activate the redis cache plugin
     wp plugin install redis-cache --activate --allow-root
     wp plugin update --all --allow-root
     wp redis enable --allow-root
 
+# ensure that the web server has the necessary permissions to read and write to those files (otherwise 'filesystem not reachable' warning in wordpress plugin page)
 chown -R www-data:www-data /var/www/html/wp-content/plugins/redis-cache
 
+# run the php process manager in foreground mode
 exec /usr/sbin/php-fpm7.4 -F
