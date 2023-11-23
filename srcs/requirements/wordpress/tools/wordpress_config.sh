@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 sleep 3
 
     echo "\n==============================="
@@ -8,6 +9,9 @@ sleep 3
 
 if [ -f "/var/www/html/wp-config.php" ]
 then
+    # bypass the 'filesystem not reachable' after reboot without volume removal, no idea why
+    usermod -u 33 www-data && groupmod -g 33 www-data
+    chown -R www-data:www-data /var/www/html/
     echo "==> wordpress is already installed and configured\n"
 else
     # download the wordpress core
@@ -33,14 +37,17 @@ else
                     --role=author\
                     --user_pass=$WP_USER_PASSWORD\
                     --allow-root
+
+    # ensure that the web server has the necessary permissions to read and write to those files
+    chown -R www-data:www-data /var/www/html/wp-content
+    chown -R www-data:www-data /var/www/html
 fi
 
-# ensure that the web server has the necessary permissions to read and write to those files
-chown -R www-data:www-data /var/www/html/wp-content
-chown -R www-data:www-data /var/www/html
+if [ "$(wp config get WP_CACHE --type=constant --allow-root)" = "true" ]
+then
+    echo "==> Redis is already configured\n"
 
-
-
+else
     echo "\n==========================="
     echo "=== Redis configuration ==="
     echo "===========================\n"
@@ -55,8 +62,9 @@ chown -R www-data:www-data /var/www/html
     wp plugin update --all --allow-root
     wp redis enable --allow-root
 
-# ensure that the web server has the necessary permissions to read and write to those files (otherwise 'filesystem not reachable' warning in wordpress plugin page)
-chown -R www-data:www-data /var/www/html/wp-content/plugins/redis-cache
+    # ensure that the web server has the necessary permissions to read and write to those files (otherwise 'filesystem not reachable' warning in wordpress plugin page)
+    chown -R www-data:www-data /var/www/html/wp-content/plugins/redis-cache
+fi
 
 # run the php process manager in foreground mode
 exec /usr/sbin/php-fpm7.4 -F
