@@ -3,6 +3,7 @@ FROM debian:bullseye
 RUN apt-get update -y && apt-get install vsftpd -y
 
 RUN mkdir -p /var/www/html
+# placeholder for the empty directory
 RUN mkdir -p /var/run/vsftpd/empty
 
 COPY conf/vsftpd.conf /etc/vsftpd.conf

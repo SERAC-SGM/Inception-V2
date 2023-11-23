@@ -1,5 +1,5 @@
 AUTHOR = 'lletourn'
-SITENAME = 'oe'
+SITENAME = 'ok'
 SITEURL = 'https://lletourn.42.fr/oe'
 
 PATH = 'content'

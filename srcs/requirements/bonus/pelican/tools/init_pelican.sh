@@ -3,7 +3,7 @@
 cp /md/article.md /static/content/article.md
 cd /static/
 
-# generate the files 
+# generate the files using the .md files inside the 'content' directory
 pelican content
 
 # move the files generated to /oe (path set up in nginx container)
