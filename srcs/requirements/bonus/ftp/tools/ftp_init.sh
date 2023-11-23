@@ -16,5 +16,7 @@ chmod 777 /var/www/html
 # append the FTP user to the FTP userlist
 echo "$FTP_USER" | tee -a /etc/vsftpd.userlist &> /dev/null
 
+usermod -aG $FTP_USER ww-data
+
 # start the  FTP server using the configuration file specified
 /usr/sbin/vsftpd /etc/vsftpd.conf
